@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using svc_backscratcher.DataAccessLayers;
+using svc_backscratcher.Models;
+using svc_backscratcher.TypeConverters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +29,16 @@ namespace svc_backscratcher
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var autoMapperSingleton = new MapperConfiguration((IMapperConfigurationExpression conf) =>
+            {
+                conf.CreateMap<BackScratcherDal, BackScratcherRest>().ConvertUsing<DalToRestModelTypeConverter>();
+                conf.CreateMap<BackScratcherRest, BackScratcherDal>().ConvertUsing<RestToDalModelTypeConverter>();
+            }).CreateMapper();
+
             services.AddControllers();
             services.AddScoped<IBackScratcherRepository, BackScratcherRepository>();
+            
+            services.AddSingleton(autoMapperSingleton);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

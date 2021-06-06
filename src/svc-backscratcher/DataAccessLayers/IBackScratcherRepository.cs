@@ -8,10 +8,11 @@ namespace svc_backscratcher.DataAccessLayers
 {
     public interface IBackScratcherRepository
     {
-        Task<Guid> CreateBackScratcherAsync(string name, string description, IEnumerable<BackScratcherSize> backScratcherSizes, double price);
-        Task<IEnumerable<BackScratcherDal>> SearchBackScratcherAsync(string name, string description, IEnumerable<BackScratcherSize> backScratcherSizes, double price);
+        Task<Guid> CreateBackScratcherAsync(BackScratcherDal backScratcher);
+        Task<IEnumerable<BackScratcherDal>> SearchAllBackScraterchersAsync();
+        Task<IEnumerable<BackScratcherDal>> SearchBackScratchersAsync(string name, string description, IEnumerable<BackScratcherSize> backScratcherSizes, double price);
         Task<BackScratcherDal> GetBackScratcherAsync(Guid id);
-        Task UpdateBackScratcherAsync(Guid id, string name, string description, IEnumerable<BackScratcherSize> backScratcherSizes, double price);
+        Task UpdateBackScratcherAsync(BackScratcherDal backScratcher);
         Task DeleteBackScratcherAsync(Guid id);
     }
 }

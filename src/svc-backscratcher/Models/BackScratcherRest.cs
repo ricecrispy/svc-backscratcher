@@ -10,7 +10,7 @@ namespace svc_backscratcher.Models
         public Guid Identifier { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public IEnumerable<string> Size { get; set; }
-        public string PriceString { get; set; }
+        public IEnumerable<string> Sizes { get; set; }
+        public string Price { get; set; }
     }
 }

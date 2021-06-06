@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8DF7630E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "svc-backscratcher", "src\svc-backscratcher\svc-backscratcher.csproj", "{8264E2BA-309E-44DD-8ADB-CE4E6EF6E2BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "svc-backscratcher-tests", "tests\svc-backscratcher-tests\svc-backscratcher-tests.csproj", "{F5FC0256-BFB6-483D-86D1-B2AF732A6E8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,12 +21,17 @@ Global
 		{8264E2BA-309E-44DD-8ADB-CE4E6EF6E2BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8264E2BA-309E-44DD-8ADB-CE4E6EF6E2BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8264E2BA-309E-44DD-8ADB-CE4E6EF6E2BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5FC0256-BFB6-483D-86D1-B2AF732A6E8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5FC0256-BFB6-483D-86D1-B2AF732A6E8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5FC0256-BFB6-483D-86D1-B2AF732A6E8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5FC0256-BFB6-483D-86D1-B2AF732A6E8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8264E2BA-309E-44DD-8ADB-CE4E6EF6E2BA} = {0251674B-C346-443C-BD6B-7D79D7ED7B6D}
+		{F5FC0256-BFB6-483D-86D1-B2AF732A6E8D} = {8DF7630E-7E91-4B85-8BDE-6A2BC028C19C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3367E32D-1EF6-4D65-8A66-5D3773E6098D}

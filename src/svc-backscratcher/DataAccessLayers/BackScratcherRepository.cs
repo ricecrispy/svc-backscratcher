@@ -8,7 +8,7 @@ namespace svc_backscratcher.DataAccessLayers
 {
     public class BackScratcherRepository : IBackScratcherRepository
     {
-        public Task CreateBackScratcherAsync(string name, string description, IEnumerable<BackScratcherSize> backScratcherSizes, double price)
+        public Task<Guid> CreateBackScratcherAsync(BackScratcherDal backScratcher)
         {
             throw new NotImplementedException();
         }
@@ -18,17 +18,22 @@ namespace svc_backscratcher.DataAccessLayers
             throw new NotImplementedException();
         }
 
-        public Task<BackScratcherRest> GetBackScratcherAsync(Guid id)
+        public Task<BackScratcherDal> GetBackScratcherAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<BackScratcherRest> SearchBackScratcherAsync(string name, string description, IEnumerable<BackScratcherSize> backScratcherSizes, double price)
+        public Task<IEnumerable<BackScratcherDal>> SearchAllBackScraterchersAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateBackScratcherAsync(Guid id, string name, string description, IEnumerable<BackScratcherSize> backScratcherSizes, double price)
+        public Task<IEnumerable<BackScratcherDal>> SearchBackScratchersAsync(string name, string description, IEnumerable<BackScratcherSize> backScratcherSizes, double price)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateBackScratcherAsync(BackScratcherDal backScratcher)
         {
             throw new NotImplementedException();
         }
