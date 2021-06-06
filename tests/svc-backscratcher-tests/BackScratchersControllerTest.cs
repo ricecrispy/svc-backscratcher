@@ -195,6 +195,131 @@ namespace svc_backscratcher_tests
             Assert.IsType<BadRequestResult>(response.Result);
         }
 
+        [Fact]
+        public async Task GetBackScratcherAsync_ValidInput_RetrievesObjectSuccessfully()
+        {
+            //Arrange
+            BackScratcherDal backScratcherDal = new BackScratcherDal
+            {
+                Name = "some-name",
+                Description = "some-description",
+                Identifier = Guid.NewGuid(),
+                Price = 100.01,
+                Size = new List<BackScratcherSize> { BackScratcherSize.XL }
+            };
+
+            BackScratcherRest expected = new BackScratcherRest
+            {
+                Name = backScratcherDal.Name,
+                Description = backScratcherDal.Description,
+                Identifier = backScratcherDal.Identifier,
+                Price = $"${backScratcherDal.Price:2F}",
+                Sizes = new List<string> { "XL" }
+            };
+
+            var backScratcherRepository = new Mock<IBackScratcherRepository>();
+            backScratcherRepository
+                .Setup(x => x.GetBackScratcherAsync(backScratcherDal.Identifier))
+                .ReturnsAsync(backScratcherDal);
+            var mapper = new Mock<IMapper>();
+            mapper
+                .Setup(x => x.Map<BackScratcherRest>(backScratcherDal))
+                .Returns(expected);
+
+            BackscratchersController underTest = new BackscratchersController(backScratcherRepository.Object, mapper.Object);
+            underTest.ControllerContext = GetMockContext();
+
+            //Act
+            var response = await underTest.GetBackScratcherAsync(backScratcherDal.Identifier);
+
+            //Assert
+            Assert.Same(expected, response.Value);
+        }
+
+        [Fact]
+        public async Task GetBackScratcherAsync_InvalidInput_ReturnsBadRequest()
+        {
+            //Arrange
+            BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>());
+            underTest.ControllerContext = GetMockContext();
+
+            //Act
+            var response = await underTest.GetBackScratcherAsync(default);
+
+            //Assert
+            Assert.IsType<BadRequestResult>(response.Result);
+        }
+
+        [Fact]
+        public async Task GetBackScratcherAsync_ItemDoesNotExist_ReturnsNotFound()
+        {
+            //Arrange
+            BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>());
+            underTest.ControllerContext = GetMockContext();
+
+            //Act
+            var response = await underTest.GetBackScratcherAsync(Guid.NewGuid());
+
+            //Assert
+            Assert.IsType<NotFoundResult>(response.Result);
+        }
+
+
+
+
+
+        [Fact]
+        public async Task DeleteBackScratcherAsync_ValidInputs_DeletesObjectSuccessfully()
+        {
+            //Arrange
+            Guid backScratcherId = Guid.NewGuid();
+
+            var backScratcherRepository = new Mock<IBackScratcherRepository>();
+            backScratcherRepository
+                .Setup(x => x.GetBackScratcherAsync(backScratcherId))
+                .ReturnsAsync(Mock.Of<BackScratcherDal>());
+            backScratcherRepository
+                .Setup(x => x.DeleteBackScratcherAsync(backScratcherId))
+                .Verifiable();
+            BackscratchersController underTest = new BackscratchersController(backScratcherRepository.Object, Mock.Of<IMapper>());
+            underTest.ControllerContext = GetMockContext();
+
+            //Act
+            var response = await underTest.DeleteBackScratcherAsync(backScratcherId);
+
+            //Assert
+            Assert.IsType<OkResult>(response);
+            backScratcherRepository.Verify();
+        }
+
+        [Fact]
+        public async Task DeleteBackScratcherAsync_InvalidInputs_ReturnsBadRequest()
+        {
+            //Arrange
+            BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>());
+            underTest.ControllerContext = GetMockContext();
+
+            //Act
+            var response = await underTest.DeleteBackScratcherAsync(default);
+
+            //Assert
+            Assert.IsType<BadRequestResult>(response);
+        }
+
+        [Fact]
+        public async Task DeleteBackScratcherAsync_ItemDoesNotExist_ReturnsNotFound()
+        {
+            //Arrange
+            BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>());
+            underTest.ControllerContext = GetMockContext();
+
+            //Act
+            var response = await underTest.DeleteBackScratcherAsync(Guid.NewGuid());
+
+            //Assert
+            Assert.IsType<NotFoundResult>(response);
+        }
+
         private ControllerContext GetMockContext()
         {
             var controllerContext = new ControllerContext();
