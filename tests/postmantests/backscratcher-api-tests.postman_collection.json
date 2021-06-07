@@ -1,0 +1,935 @@
+{
+	"info": {
+		"_postman_id": "263ccd28-579b-4d7d-9da7-9e12dc68364d",
+		"name": "backscratcher-api-tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "Valid Post Product 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    pm.collectionVariables.set('product1Id', pm.response.text().replace(/\"/g, ''));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Glamorgirl\",\r\n    \"description\": \"Pretty app\",\r\n    \"price\": \"$9,343.00\",\r\n    \"sizes\": [\"XL\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Valid Post Product 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    pm.collectionVariables.set('product2Id', pm.response.text().replace(/\"/g, ''));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"super-scratch\",\r\n    \"description\": \"Heavy duty\",\r\n    \"price\": \"$340.00\",\r\n    \"sizes\": [\"S\", \"M\", \"L\", \"XL\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Valid Post Product 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    pm.collectionVariables.set('product3Id', pm.response.text().replace(/\"/g, ''));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"super fancy\",\r\n    \"description\": \"made with diamonds and gold\",\r\n    \"price\": \"$67430.48\",\r\n    \"sizes\": [\"M\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Post object already exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 409\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"super fancy\",\r\n    \"description\": \"made with diamonds and gold\",\r\n    \"price\": \"$67430.48\",\r\n    \"sizes\": [\"M\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Post missing name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"made with diamonds and gold\",\r\n    \"price\": \"$67430.48\",\r\n    \"sizes\": [\"L\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Post missing description",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"super fancy\",\r\n    \"price\": \"$67430.48\",\r\n    \"sizes\": [\"M\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Post missing sizes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"super fancy\",\r\n    \"description\": \"made with diamonds and gold\",\r\n    \"price\": \"$67430.48\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Post missing price",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"super fancy\",\r\n    \"description\": \"made with diamonds and gold\",\r\n    \"sizes\": [\"M\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Post incorrect sizes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"super fancy\",\r\n    \"description\": \"made with diamonds and gold\",\r\n    \"price\": \"$67430.48\",\r\n    \"sizes\": [\"BIG\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Post incorrect price",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"super fancy\",\r\n    \"description\": \"made with diamonds and gold\",\r\n    \"price\": \"five dollars and fifty cent\",\r\n    \"sizes\": [\"BIG\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get",
+			"item": [
+				{
+					"name": "Valid Get All",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length == 3).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Valid Get All with query parameters",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length == 3).to.be.true;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Valid Get product 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers/{{product1Id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers",
+								"{{product1Id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Get Non-existing Product ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers/{{invalidProductId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers",
+								"{{invalidProductId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Put",
+			"item": [
+				{
+					"name": "Valid Put Update product 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"identifier\": \"{{product1Id}}\",\r\n    \"name\": \"Glamorgirl-updated\",\r\n    \"description\": \"Pretty app updated\",\r\n    \"price\": \"$9999.99\",\r\n    \"sizes\": [\"S\", \"XL\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers/{{product1Id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers",
+								"{{product1Id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Valid Put Create new product 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    pm.collectionVariables.set('product4Id', pm.response.text().replace(/\"/g, ''));\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Glamorbody\",\r\n    \"description\": \"Pretty and smart app\",\r\n    \"price\": \"$7429.98\",\r\n    \"sizes\": [\"S\", \"L\", \"XL\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers/{{product1Id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers",
+								"{{product1Id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete",
+			"item": [
+				{
+					"name": "Invalid Delete Non-existing Product ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers/{{invalidProductId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers",
+								"{{invalidProductId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Valid Delete Product 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers/{{product1Id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers",
+								"{{product1Id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Delete object already deleted",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers/{{product1Id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers",
+								"{{product1Id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Valid Delete Product 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers/{{product2Id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers",
+								"{{product2Id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Valid Delete Product 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers/{{product3Id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers",
+								"{{product3Id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Valid Delete Product 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers/{{product4Id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers",
+								"{{product4Id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "validItemId",
+			"value": ""
+		},
+		{
+			"key": "product1Id",
+			"value": ""
+		},
+		{
+			"key": "product2Id",
+			"value": ""
+		},
+		{
+			"key": "product3Id",
+			"value": ""
+		}
+	]
+}
