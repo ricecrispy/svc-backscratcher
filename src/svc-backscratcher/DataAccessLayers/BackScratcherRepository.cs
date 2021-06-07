@@ -1,6 +1,9 @@
-﻿using svc_backscratcher.Models;
+﻿using svc_backscratcher.DatabaseAccess;
+using svc_backscratcher.FluentMap.Mappings;
+using svc_backscratcher.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,34 +11,46 @@ namespace svc_backscratcher.DataAccessLayers
 {
     public class BackScratcherRepository : IBackScratcherRepository
     {
-        public Task<Guid> CreateBackScratcherAsync(BackScratcherDal backScratcher)
+        private readonly IDatabaseAccess _databaseAccess;
+
+        public BackScratcherRepository(IDatabaseAccess databaseAccess)
         {
-            throw new NotImplementedException();
+            _databaseAccess = databaseAccess;
         }
 
-        public Task DeleteBackScratcherAsync(Guid id)
+        static BackScratcherRepository()
         {
-            throw new NotImplementedException();
+            FluentMapInitializer.EnsureMapsInitialized();
         }
 
-        public Task<BackScratcherDal> GetBackScratcherAsync(Guid id)
+        public async Task<Guid> CreateBackScratcherAsync(BackScratcherDal backScratcher)
         {
-            throw new NotImplementedException();
+            
         }
 
-        public Task<IEnumerable<BackScratcherDal>> SearchAllBackScraterchersAsync()
+        public async Task DeleteBackScratcherAsync(Guid id)
         {
-            throw new NotImplementedException();
+
         }
 
-        public Task<IEnumerable<BackScratcherDal>> SearchBackScratchersAsync(string name, string description, IEnumerable<BackScratcherSize> backScratcherSizes, double price)
+        public async Task<BackScratcherDal> GetBackScratcherAsync(Guid id)
         {
-            throw new NotImplementedException();
+            
         }
 
-        public Task UpdateBackScratcherAsync(BackScratcherDal backScratcher)
+        public async Task<IEnumerable<BackScratcherDal>> SearchAllBackScraterchersAsync()
         {
-            throw new NotImplementedException();
+            
+        }
+
+        public async Task<IEnumerable<BackScratcherDal>> SearchBackScratchersAsync(string name, string description, IEnumerable<BackScratcherSize> backScratcherSizes, double price)
+        {
+            
+        }
+
+        public async Task UpdateBackScratcherAsync(BackScratcherDal backScratcher)
+        {
+            
         }
     }
 }

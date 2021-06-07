@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using svc_backscratcher.DataAccessLayers;
+using svc_backscratcher.DatabaseAccess;
 using svc_backscratcher.Models;
 using svc_backscratcher.TypeConverters;
 using System;
@@ -37,6 +38,7 @@ namespace svc_backscratcher
 
             services.AddControllers();
             services.AddScoped<IBackScratcherRepository, BackScratcherRepository>();
+            services.AddScoped<IDatabaseAccess, PostgreSqlDataAccess>();
             
             services.AddSingleton(autoMapperSingleton);
         }
