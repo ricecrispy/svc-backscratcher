@@ -76,13 +76,13 @@ namespace svc_backscratcher_tests
                 Price = 781.30,
                 Size = new BackScratcherSize[] { BackScratcherSize.S, BackScratcherSize.L }
             };
-            var dalBodyList = new List<BackScratcherDal> { Mock.Of<BackScratcherDal>() };
+            var dalBodyList = new List<BackScratcherDal> { dalBody };
 
             Guid expected = Guid.NewGuid();
 
             var backScratcherRepository = new Mock<IBackScratcherRepository>();
             backScratcherRepository
-                .Setup(x => x.SearchBackScratchersAsync(dalBody.Name, dalBody.Description, dalBody.Size, dalBody.Price))
+                .Setup(x => x.SearchAllBackScraterchersAsync())
                 .ReturnsAsync(dalBodyList);
             var mapper = new Mock<IMapper>();
             mapper
@@ -138,7 +138,7 @@ namespace svc_backscratcher_tests
         }
 
         [Fact]
-        public async Task SearchBackScratchersAsync_NoInput_RetrievesAllObjectsSuccesfully()
+        public async Task SearchBackScratchersAsync_RetrievesAllObjectsSuccesfully()
         {
             //Arrange
             BackScratcherDal backScratcherDal = new BackScratcherDal
@@ -178,22 +178,22 @@ namespace svc_backscratcher_tests
             Assert.Same(expected, response.Value);
         }
 
-        [Theory]
-        [InlineData("L", "$$$")]
-        [InlineData("L", "two dollars and fifty cents")]
-        [InlineData("LLL", "$2.50")]
-        [InlineData("small,large", "$2.50")]
-        public async Task SearchBackScratchersAsync_InvalidInputs_ReturnsBadRequest(string sizes, string price)
-        {
-            //Arrange
-            BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>());
+        //[Theory]
+        //[InlineData("L", "$$$")]
+        //[InlineData("L", "two dollars and fifty cents")]
+        //[InlineData("LLL", "$2.50")]
+        //[InlineData("small,large", "$2.50")]
+        //public async Task SearchBackScratchersAsync_InvalidInputs_ReturnsBadRequest(string sizes, string price)
+        //{
+        //    //Arrange
+        //    BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>());
 
-            //Act
-            var response = await underTest.SearchBackScratchersAsync(sizes: sizes, price: price);
+        //    //Act
+        //    var response = await underTest.SearchBackScratchersAsync(sizes: sizes, price: price);
 
-            //Assert
-            Assert.IsType<BadRequestResult>(response.Result);
-        }
+        //    //Assert
+        //    Assert.IsType<BadRequestResult>(response.Result);
+        //}
 
         [Fact]
         public async Task GetBackScratcherAsync_ValidInput_RetrievesObjectSuccessfully()

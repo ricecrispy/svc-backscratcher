@@ -37,6 +37,8 @@ namespace svc_backscratcher
             }).CreateMapper();
 
             services.AddControllers();
+            services.Configure<PostgreSqlDataAccessOptions>(Configuration.GetSection(nameof(PostgreSqlDataAccessOptions)));
+
             services.AddScoped<IBackScratcherRepository, BackScratcherRepository>();
             services.AddScoped<IDatabaseAccess, PostgreSqlDataAccess>();
             

@@ -1,5 +1,7 @@
-﻿using Npgsql;
+﻿using Microsoft.Extensions.Options;
+using Npgsql;
 using svc_backscratcher.FluentMap.Mappings;
+using svc_backscratcher.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,6 +12,13 @@ namespace svc_backscratcher.DatabaseAccess
 {
     public class PostgreSqlDataAccess : IDatabaseAccess
     {
+        private readonly PostgreSqlDataAccessOptions _options;
+
+        public PostgreSqlDataAccess(IOptions<PostgreSqlDataAccessOptions> options)
+        {
+            _options = options?.Value;
+        }
+
         static PostgreSqlDataAccess()
         {
             FluentMapInitializer.EnsureMapsInitialized();
@@ -17,6 +26,8 @@ namespace svc_backscratcher.DatabaseAccess
 
         public IDbConnection GetDatabaseConnection()
         {
+            //NpgsqlConnection.GlobalTypeMapper.MapEnum<BackScratcherSize>("data.size");
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<BackScratcherSize>("public.size");
             return new NpgsqlConnection(CreateConnectionString());
         }
 
@@ -24,11 +35,12 @@ namespace svc_backscratcher.DatabaseAccess
         {
             return new NpgsqlConnectionStringBuilder
             {
-                Host = "localhost",
-                Port = 5432,
-                Username = "postgres",
-                Password = "*DwLo8#FiSitaq8R#jUP",
-                Database = "backscratcher"
+                //Host = "localhost",
+                Host = _options.Host,
+                Port = _options.Port,
+                Username = _options.Username,
+                Password = _options.Password,
+                Database = _options.Database
             }.ConnectionString;
         }
     }

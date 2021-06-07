@@ -11,9 +11,5 @@
     <PackageReference Include="Npgsql" Version="5.0.5" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="FluentMap\ParameterModels\" />
-  </ItemGroup>
-
 
 </Project>
