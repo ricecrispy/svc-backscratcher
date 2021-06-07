@@ -38,8 +38,7 @@ namespace svc_backscratcher.DataAccessLayers
             using (var connection = _databaseAccess.GetDatabaseConnection())
             {
                 return await connection.QuerySingleOrDefaultAsync<Guid>(
-                    /*"data.create_product",*/
-                    "public.create_product",
+                    "data.create_product",
                     parameters,
                     commandType: CommandType.StoredProcedure);
             }
@@ -55,8 +54,7 @@ namespace svc_backscratcher.DataAccessLayers
             using (var connection = _databaseAccess.GetDatabaseConnection())
             {
                 return await connection.QuerySingleOrDefaultAsync<BackScratcherDal>(
-                    //"data.get_product",
-                    "public.get_product",
+                    "data.get_product",
                     parameters,
                     commandType: CommandType.StoredProcedure);
             }
@@ -67,8 +65,7 @@ namespace svc_backscratcher.DataAccessLayers
             using (var connection = _databaseAccess.GetDatabaseConnection())
             {
                 return await connection.QueryAsync<BackScratcherDal>(
-                    //"data.get_all_products",
-                    "public.get_all_products",
+                    "data.get_all_products",
                     null,
                     commandType: CommandType.StoredProcedure);
             }
@@ -88,8 +85,7 @@ namespace svc_backscratcher.DataAccessLayers
             using (var connection = _databaseAccess.GetDatabaseConnection())
             {
                 await connection.ExecuteAsync(
-                    //"data.update_product",
-                    "public.update_product",
+                    "data.update_product",
                     parameters,
                     commandType: CommandType.StoredProcedure);
             }
@@ -105,8 +101,7 @@ namespace svc_backscratcher.DataAccessLayers
             using (var connection = _databaseAccess.GetDatabaseConnection())
             {
                 await connection.ExecuteAsync(
-                    //"data.delete_product",
-                    "public.delete_product",
+                    "data.delete_product",
                     parameters,
                     commandType: CommandType.StoredProcedure);
             }
