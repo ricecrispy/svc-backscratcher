@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>svc_backscratcher</RootNamespace>
+    <UserSecretsId>6a8f2dff-104c-4b98-9a7e-ed02a456de5e</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

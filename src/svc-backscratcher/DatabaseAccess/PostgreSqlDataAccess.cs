@@ -26,8 +26,7 @@ namespace svc_backscratcher.DatabaseAccess
 
         public IDbConnection GetDatabaseConnection()
         {
-            //NpgsqlConnection.GlobalTypeMapper.MapEnum<BackScratcherSize>("data.size");
-            NpgsqlConnection.GlobalTypeMapper.MapEnum<BackScratcherSize>("public.size");
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<BackScratcherSize>("data.size");
             return new NpgsqlConnection(CreateConnectionString());
         }
 
@@ -35,7 +34,6 @@ namespace svc_backscratcher.DatabaseAccess
         {
             return new NpgsqlConnectionStringBuilder
             {
-                //Host = "localhost",
                 Host = _options.Host,
                 Port = _options.Port,
                 Username = _options.Username,
