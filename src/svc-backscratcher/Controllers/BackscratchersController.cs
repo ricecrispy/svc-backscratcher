@@ -32,7 +32,7 @@ namespace svc_backscratcher.Controllers
             if (string.IsNullOrWhiteSpace(body.Name) ||
                 string.IsNullOrWhiteSpace(body.Description) ||
                 !AreSizesValid(body.Sizes) ||
-                !IsPriceValid(body.Price))
+                !Util.TryGetProductPrice(body.Price, out _))
             {
                 return BadRequest();
             }
@@ -52,9 +52,44 @@ namespace svc_backscratcher.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<BackScratcherRest>>> SearchBackScratchersAsync()
+        public async Task<ActionResult<IEnumerable<BackScratcherRest>>> SearchBackScratchersAsync(string name = null, string description = null, string sizes = null, string price = null)
         {
-            return _mapper.Map<List<BackScratcherRest>>(await _backScratcherRepository.SearchAllBackScraterchersAsync());
+            var backscratchers = await _backScratcherRepository.SearchAllBackScraterchersAsync();
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                backscratchers = backscratchers.Where(x => x.Name == name);
+            }
+            if (!string.IsNullOrWhiteSpace(description))
+            {
+                backscratchers = backscratchers.Where(x => x.Description.ToLower().Contains(description.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(sizes))
+            {
+                var sizeList = sizes.Split(",").ToList();
+                if (AreSizesValid(sizeList))
+                {
+                    backscratchers = backscratchers.Where(x => x.Size.Any(s => sizeList.Contains(s.ToString())));
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            double priceLimit = double.MaxValue;
+            if (!string.IsNullOrWhiteSpace(price))
+            {
+                if (Util.TryGetProductPrice(price, out double parsedPrice))
+                {
+                    priceLimit = parsedPrice;
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            backscratchers = backscratchers.Where(x => x.Price <= priceLimit);
+            return _mapper.Map<List<BackScratcherRest>>(backscratchers);
         }
 
         [HttpGet("{id}")]
@@ -88,7 +123,7 @@ namespace svc_backscratcher.Controllers
                 string.IsNullOrWhiteSpace(body.Name) ||
                 string.IsNullOrWhiteSpace(body.Description) ||
                 !AreSizesValid(body.Sizes) ||
-                !IsPriceValid(body.Price))
+                !Util.TryGetProductPrice(body.Price, out _))
             {
                 return BadRequest();
             }
@@ -132,12 +167,7 @@ namespace svc_backscratcher.Controllers
 
         private bool AreSizesValid(IEnumerable<string> sizes)
         {
-            return sizes.All(x => Enum.TryParse<BackScratcherSize>(x, out _));
-        }
-
-        private bool IsPriceValid(string priceString)
-        {
-            return double.TryParse(priceString.Replace("$", ""), out _);
+            return sizes.All(x => Util.TryConvertSize(x, out _));
         }
     }
 }

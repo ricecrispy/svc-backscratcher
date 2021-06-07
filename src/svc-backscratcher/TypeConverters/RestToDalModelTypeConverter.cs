@@ -15,10 +15,10 @@ namespace svc_backscratcher.TypeConverters
                 Identifier = source.Identifier,
                 Name = source.Name,
                 Description = source.Description,
-                Price = double.Parse(source.Price.Replace("$", "")),
+                Price = Util.GetProductPrice(source.Price),
                 Size = source.Sizes.Distinct().Select(x =>
                 {
-                    Enum.TryParse(x.ToUpper().Trim(), out BackScratcherSize size);
+                    Util.TryConvertSize(x, out BackScratcherSize size);
                     return size;
                 })
             };

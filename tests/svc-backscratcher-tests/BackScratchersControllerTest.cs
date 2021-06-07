@@ -178,22 +178,22 @@ namespace svc_backscratcher_tests
             Assert.Same(expected, response.Value);
         }
 
-        //[Theory]
-        //[InlineData("L", "$$$")]
-        //[InlineData("L", "two dollars and fifty cents")]
-        //[InlineData("LLL", "$2.50")]
-        //[InlineData("small,large", "$2.50")]
-        //public async Task SearchBackScratchersAsync_InvalidInputs_ReturnsBadRequest(string sizes, string price)
-        //{
-        //    //Arrange
-        //    BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>());
+        [Theory]
+        [InlineData("L", "$$$")]
+        [InlineData("L", "two dollars and fifty cents")]
+        [InlineData("LLL", "$2.50")]
+        [InlineData("small,large", "2.50")]
+        public async Task SearchBackScratchersAsync_InvalidInputs_ReturnsBadRequest(string sizes, string price)
+        {
+            //Arrange
+            BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>());
 
-        //    //Act
-        //    var response = await underTest.SearchBackScratchersAsync(sizes: sizes, price: price);
+            //Act
+            var response = await underTest.SearchBackScratchersAsync(sizes: sizes, price: price);
 
-        //    //Assert
-        //    Assert.IsType<BadRequestResult>(response.Result);
-        //}
+            //Assert
+            Assert.IsType<BadRequestResult>(response.Result);
+        }
 
         [Fact]
         public async Task GetBackScratcherAsync_ValidInput_RetrievesObjectSuccessfully()
