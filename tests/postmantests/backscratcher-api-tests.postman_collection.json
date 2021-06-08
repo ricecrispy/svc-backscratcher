@@ -451,7 +451,7 @@
 					"response": []
 				},
 				{
-					"name": "Valid Get All with query parameters",
+					"name": "Valid Get All with description query parameters",
 					"event": [
 						{
 							"listen": "test",
@@ -460,7 +460,7 @@
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.length == 3).to.be.true;\r",
+									"    pm.expect(jsonData.length == 1).to.be.true;\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -483,12 +483,33 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/backscratchers",
+							"raw": "{{baseUrl}}/backscratchers?description=gold",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"backscratchers"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Glamorgirl",
+									"disabled": true
+								},
+								{
+									"key": "price",
+									"value": "five",
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": "gold"
+								},
+								{
+									"key": "sizes",
+									"value": "XXXL",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -661,6 +682,46 @@
 							"path": [
 								"backscratchers",
 								"{{product1Id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Put default ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"identifier\": \"{{product1Id}}\",\r\n    \"name\": \"updated\",\r\n    \"description\": \"updated\",\r\n    \"price\": \"$9999.99\",\r\n    \"sizes\": [\"S\", \"XL\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/backscratchers/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"backscratchers",
+								"00000000-0000-0000-0000-000000000000"
 							]
 						}
 					},
@@ -929,6 +990,10 @@
 		},
 		{
 			"key": "product3Id",
+			"value": ""
+		},
+		{
+			"key": "product4Id",
 			"value": ""
 		}
 	]

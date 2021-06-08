@@ -31,7 +31,9 @@ namespace svc_backscratcher.Controllers
         {
             if (string.IsNullOrWhiteSpace(body.Name) ||
                 string.IsNullOrWhiteSpace(body.Description) ||
+                body.Sizes == null ||
                 !AreSizesValid(body.Sizes) ||
+                string.IsNullOrWhiteSpace(body.Price) ||
                 !Util.TryGetProductPrice(body.Price, out _))
             {
                 return BadRequest();
@@ -39,7 +41,7 @@ namespace svc_backscratcher.Controllers
 
             BackScratcherDal dalModel = _mapper.Map<BackScratcherDal>(body);
             var backScratchers = await _backScratcherRepository.SearchAllBackScraterchersAsync();
-            if (backScratchers.Any(x => x.Name == dalModel.Name && x.Description == dalModel.Description && x.Size == dalModel.Size && x.Price == dalModel.Price))
+            if (backScratchers.Any(x => x.Name == dalModel.Name && x.Description == dalModel.Description && Enumerable.SequenceEqual(x.Size, dalModel.Size) && x.Price == dalModel.Price))
             {
                 return Conflict();
             }
@@ -119,16 +121,19 @@ namespace svc_backscratcher.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> UpdateBackScratcherAsync(Guid id, [FromBody] BackScratcherRest body)
         {
-            if ((id != default && id != body.Identifier) ||
+            if (id == default ||
+                (body.Identifier != default && id != body.Identifier) ||
                 string.IsNullOrWhiteSpace(body.Name) ||
                 string.IsNullOrWhiteSpace(body.Description) ||
+                body.Sizes == null ||
                 !AreSizesValid(body.Sizes) ||
+                string.IsNullOrWhiteSpace(body.Price) ||
                 !Util.TryGetProductPrice(body.Price, out _))
             {
                 return BadRequest();
             }
 
-            if (id == default)
+            if (body.Identifier == default)
             {
                 return await CreateBackScratcherAsync(body);
             }
@@ -167,7 +172,7 @@ namespace svc_backscratcher.Controllers
 
         private bool AreSizesValid(IEnumerable<string> sizes)
         {
-            return sizes.All(x => Util.TryConvertSize(x, out _));
+            return sizes != null && sizes.All(x => Util.TryConvertSize(x, out _));
         }
     }
 }
