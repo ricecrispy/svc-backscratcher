@@ -264,8 +264,51 @@ namespace svc_backscratcher_tests
             Assert.IsType<NotFoundResult>(response.Result);
         }
 
+        [Fact]
+        public async Task UpdateBackScratcherAsync_ValidInputs_UpdatesObjectSuccessfully()
+        {
+            //Arrange
+            BackScratcherDal backScratcherDal = new BackScratcherDal
+            {
+                Name = "some-name",
+                Description = "some-description",
+                Identifier = Guid.NewGuid(),
+                Price = 100.01,
+                Size = new List<BackScratcherSize> { BackScratcherSize.XL }
+            };
 
+            BackScratcherRest body = new BackScratcherRest
+            {
+                Name = backScratcherDal.Name,
+                Description = backScratcherDal.Description,
+                Identifier = backScratcherDal.Identifier,
+                Price = $"${backScratcherDal.Price}",
+                Sizes = new List<string> { "XL" }
+            };
 
+            var backScratcherRepository = new Mock<IBackScratcherRepository>();
+            backScratcherRepository
+                .Setup(x => x.GetBackScratcherAsync(body.Identifier))
+                .ReturnsAsync(backScratcherDal);
+            backScratcherRepository
+                .Setup(x => x.UpdateBackScratcherAsync(backScratcherDal))
+                .Verifiable();
+
+            var mapper = new Mock<IMapper>();
+            mapper
+                .Setup(x => x.Map<BackScratcherDal>(body))
+                .Returns(backScratcherDal);
+
+            BackscratchersController underTest = new BackscratchersController(backScratcherRepository.Object, mapper.Object);
+            underTest.ControllerContext = GetMockContext();
+
+            //Act
+            var response = await underTest.UpdateBackScratcherAsync(body.Identifier, body);
+
+            //Assert
+            Assert.IsType<OkResult>(response);
+            backScratcherRepository.Verify();
+        }
 
 
         [Fact]

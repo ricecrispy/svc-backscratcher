@@ -121,8 +121,13 @@ namespace svc_backscratcher.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> UpdateBackScratcherAsync(Guid id, [FromBody] BackScratcherRest body)
         {
+            if (body.Identifier == default)
+            {
+                return await CreateBackScratcherAsync(body);
+            }
+
             if (id == default ||
-                (body.Identifier != default && id != body.Identifier) ||
+                body.Identifier != id ||
                 string.IsNullOrWhiteSpace(body.Name) ||
                 string.IsNullOrWhiteSpace(body.Description) ||
                 body.Sizes == null ||
@@ -133,21 +138,14 @@ namespace svc_backscratcher.Controllers
                 return BadRequest();
             }
 
-            if (body.Identifier == default)
+            if (await _backScratcherRepository.GetBackScratcherAsync(id) == null)
             {
-                return await CreateBackScratcherAsync(body);
+                return NotFound();
             }
-            else
-            {
-                if (await _backScratcherRepository.GetBackScratcherAsync(id) == null)
-                {
-                    return NotFound();
-                }
 
-                BackScratcherDal input = _mapper.Map<BackScratcherDal>(body);
-                await _backScratcherRepository.UpdateBackScratcherAsync(input);
-                return Ok();
-            }
+            BackScratcherDal input = _mapper.Map<BackScratcherDal>(body);
+            await _backScratcherRepository.UpdateBackScratcherAsync(input);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
