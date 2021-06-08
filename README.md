@@ -4,7 +4,7 @@ Backscratcher API
 ## Purpose
 A simple Rest API that provides CRUD operations to backscratcher objects.
 
-## Built with
+## Built With
 [C#](https://docs.microsoft.com/en-us/dotnet/csharp/) - The C# language
 
 [.Net Core](https://dotnet.microsoft.com/) - free and open-source, managed computer software framework for Windows, Linux, and macOS operating systems
