@@ -2,6 +2,10 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+orbs:
+  aws-ecr: circleci/aws-ecr@7.0.0
+  aws-ecs: circleci/aws-ecs@2.2.1
+
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   build-and-test:  
@@ -17,9 +21,11 @@ jobs:
       - run:
           # Update this line with the directory that contains your tests project file
           working_directory: tests/svc-backscratcher-tests 
-          name: Run tests
+          name: dotnet test
           command: |
             dotnet test
+
+  
             
 
 workflows:
@@ -27,6 +33,21 @@ workflows:
   # Inside the workflow, you provide the jobs you want to run, e.g this workflow runs the build-and-test job above.
   # CircleCI will run this workflow on every commit.
   # For more details on extending your workflow, see the configuration docs: https://circleci.com/docs/2.0/configuration-reference/#workflows
-  sample: 
+  run-unit-tests: 
     jobs:
       - build-and-test
+      # - aws-ecr/build-and-push-image:
+      #     account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
+      #     aws-access-key-id: ACCESS_KEY_ID_ENV_VAR_NAME
+      #     aws-secret-access-key: SECRET_ACCESS_KEY_ENV_VAR_NAME
+      #     context: myContext
+      #     create-repo: true
+      #     dockerfile: myDockerfile
+      #     no-output-timeout: 20m
+      #     path: pathToMyDockerfile
+      #     profile-name: myProfileName
+      #     region: AWS_REGION_ENV_VAR_NAME
+      #     repo: myECRRepository
+      #     skip-when-tags-exist: false
+      #     tag: 'latest,myECRRepoTag'
+
