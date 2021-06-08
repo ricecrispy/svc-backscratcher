@@ -310,6 +310,33 @@ namespace svc_backscratcher_tests
             backScratcherRepository.Verify();
         }
 
+        [Fact]
+        public async Task UpdateBackScratcherAsync_ProductNotFound_ReturnsNotFound()
+        {
+            //Arrange
+            BackScratcherRest body = new BackScratcherRest
+            {
+                Name = "some-name",
+                Description = "some-description",
+                Identifier = Guid.NewGuid(),
+                Price = "$123.45",
+                Sizes = new List<string> { "XL" }
+            };
+
+            var backScratcherRepository = new Mock<IBackScratcherRepository>();
+
+            var mapper = new Mock<IMapper>();
+
+            BackscratchersController underTest = new BackscratchersController(backScratcherRepository.Object, mapper.Object);
+            underTest.ControllerContext = GetMockContext();
+
+            //Act
+            var response = await underTest.UpdateBackScratcherAsync(body.Identifier, body);
+
+            //Assert
+            Assert.IsType<NotFoundResult>(response);
+        }
+
 
         [Fact]
         public async Task DeleteBackScratcherAsync_ValidInputs_DeletesObjectSuccessfully()
