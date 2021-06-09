@@ -5,6 +5,7 @@ version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@7.0.0
   aws-ecs: circleci/aws-ecs@2.2.1
+  aws-cli: circleci/aws-cli@2.0.2
 
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
@@ -19,35 +20,35 @@ jobs:
       - checkout
       # Then simply use the dotnet container as you'd expect and run your tests
       - run:
+          working_directory: ./src/svc-backscratcher
+          name: check working directory
+          command: |
+            ls
+      - run:
           # Update this line with the directory that contains your tests project file
           working_directory: tests/svc-backscratcher-tests 
           name: dotnet test
           command: |
             dotnet test
 
-  
-            
-
 workflows:
   # Below is the definition of your workflow.
   # Inside the workflow, you provide the jobs you want to run, e.g this workflow runs the build-and-test job above.
   # CircleCI will run this workflow on every commit.
   # For more details on extending your workflow, see the configuration docs: https://circleci.com/docs/2.0/configuration-reference/#workflows
-  run-unit-tests: 
+  deploy: 
     jobs:
       - build-and-test
-      # - aws-ecr/build-and-push-image:
-      #     account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
-      #     aws-access-key-id: ACCESS_KEY_ID_ENV_VAR_NAME
-      #     aws-secret-access-key: SECRET_ACCESS_KEY_ENV_VAR_NAME
-      #     context: myContext
-      #     create-repo: true
-      #     dockerfile: myDockerfile
-      #     no-output-timeout: 20m
-      #     path: pathToMyDockerfile
-      #     profile-name: myProfileName
-      #     region: AWS_REGION_ENV_VAR_NAME
-      #     repo: myECRRepository
-      #     skip-when-tags-exist: false
-      #     tag: 'latest,myECRRepoTag'
+      - aws-ecr/build-and-push-image:
+          requires:
+            - build-and-test
+          path: ./src/svc-backscratcher
+          repo: "${AWS_RESOURCE_NAME_PREFIX}"
+          tag: "${CIRCLE_SHA1}"
+      - aws-ecs/deploy-service-update:
+          requires:
+            - aws-ecr/build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
+          family: "${AWS_RESOURCE_NAME_PREFIX}-service"
+          cluster-name: "${AWS_RESOURCE_NAME_PREFIX}-cluster"
+          container-image-name-updates: "container=${AWS_RESOURCE_NAME_PREFIX}-service,tag=${CIRCLE_SHA1}"
 
