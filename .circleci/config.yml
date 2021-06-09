@@ -37,7 +37,8 @@ workflows:
       - aws-ecr/build-and-push-image:
           requires:
             - build-and-test
-          path: svc-backscratcher
+          context: src/svc-backscratcher
+          path: src/svc-backscratcher
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           tag: "${CIRCLE_SHA1}"
       - aws-ecs/deploy-service-update:
