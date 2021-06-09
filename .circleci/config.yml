@@ -5,6 +5,7 @@ version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@7.0.0
   aws-ecs: circleci/aws-ecs@2.2.1
+  aws-cli: circleci/aws-cli@2.0.2
 
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
@@ -25,9 +26,6 @@ jobs:
           command: |
             dotnet test
 
-  
-            
-
 workflows:
   # Below is the definition of your workflow.
   # Inside the workflow, you provide the jobs you want to run, e.g this workflow runs the build-and-test job above.
@@ -39,7 +37,7 @@ workflows:
       - aws-ecr/build-and-push-image:
           requires:
             - build-and-test
-          dockerfile: src/svc-backscratcher
+          path: src/svc-backscratcher
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           tag: "${CIRCLE_SHA1}"
       - aws-ecs/deploy-service-update:
