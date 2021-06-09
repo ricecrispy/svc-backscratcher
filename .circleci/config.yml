@@ -31,12 +31,13 @@ workflows:
   # Inside the workflow, you provide the jobs you want to run, e.g this workflow runs the build-and-test job above.
   # CircleCI will run this workflow on every commit.
   # For more details on extending your workflow, see the configuration docs: https://circleci.com/docs/2.0/configuration-reference/#workflows
-  run-unit-tests: 
+  deploy: 
     jobs:
       - build-and-test
       - aws-ecr/build-and-push-image:
           requires:
             - build-and-test
+          path: ./src/svc-backscratcher
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           tag: "${CIRCLE_SHA1}"
       - aws-ecs/deploy-service-update:
