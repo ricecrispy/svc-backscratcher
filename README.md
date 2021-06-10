@@ -34,10 +34,6 @@ cd svc-backscratcher
 
 2. Open `svc-backscratcher.sln` to start editing the project files. (Please refer to the `Configuration` section for changing values in appsettings.json)
 
-3. Start the service in a docker container
-```
-docker compose up
-```
 
 ## Configuration
 

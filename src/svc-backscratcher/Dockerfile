@@ -11,10 +11,10 @@ ENV ASPNETCORE_URLS=http://+:5000
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
-COPY ["src/svc-backscratcher/svc-backscratcher.csproj", "src/svc-backscratcher/"]
-RUN dotnet restore "src/svc-backscratcher/svc-backscratcher.csproj"
+COPY ["svc-backscratcher.csproj", "./"]
+RUN dotnet restore "./svc-backscratcher.csproj"
 COPY . .
-WORKDIR "/src/src/svc-backscratcher"
+WORKDIR /src/.
 RUN dotnet build "svc-backscratcher.csproj" -c Release -o /app/build
 
 FROM build AS publish
