@@ -34,6 +34,14 @@ cd svc-backscratcher
 
 2. Open `svc-backscratcher.sln` to start editing the project files. (Please refer to the `Configuration` section for changing values in appsettings.json)
 
+3. Build and run application with docker (optional)
+```
+cd src/svc-backscratcher
+docker build -t backscratcher-image .
+docker run -dp 5000:5000 backscratcher-rest
+```
+
+The application will run on http://localhost:5000
 
 ## Configuration
 
@@ -142,3 +150,14 @@ Response:
 - 200: Deleted object successfully.
 - 400: Invalid path parameter.
 - 404: the object to delete is not found.
+
+## Postman Tests
+
+The postman test collection is located in tests/postmantests
+
+To import and run the tests:
+
+1. import the `postmantests` folder
+2. select `backscratcher-api-tests` and `backscratcher-environment` to import
+3. select `backscratcher-environment` as the environment and confirm `http://localhost:5000` is the current value of `baseUrl`
+4. run the `backscratcher-api-tests` test collection
