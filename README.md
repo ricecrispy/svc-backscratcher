@@ -38,7 +38,7 @@ cd svc-backscratcher
 ```
 cd src/svc-backscratcher
 docker build -t backscratcher-image .
-docker run -dp 5000:5000 backscratcher-rest
+docker run -dp 5000:5000 backscratcher-image
 ```
 
 The application will run on http://localhost:5000
