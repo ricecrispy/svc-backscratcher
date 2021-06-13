@@ -20,7 +20,7 @@ namespace svc_backscratcher.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetHealthCheckResult()
         {
-            return Ok();
+            return Ok("backscratcher service: OK");
         }
     }
 }
