@@ -18,7 +18,7 @@ namespace svc_backscratcher.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetHealthCheckResult()
+        public ActionResult GetHealthCheckResult()
         {
             return Ok("backscratcher service: OK");
         }

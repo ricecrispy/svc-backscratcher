@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 
 namespace svc_backscratcher_tests
 {
@@ -45,7 +46,7 @@ namespace svc_backscratcher_tests
                 .Setup(x => x.Map<BackScratcherDal>(body))
                 .Returns(dalBody);
 
-            BackscratchersController underTest = new BackscratchersController(backScratcherRepository.Object, mapper.Object);
+            BackscratchersController underTest = new BackscratchersController(backScratcherRepository.Object, mapper.Object, Mock.Of<ILogger<BackscratchersController>>());
             underTest.ControllerContext = GetMockContext();
 
             //Act
@@ -89,7 +90,7 @@ namespace svc_backscratcher_tests
                 .Setup(x => x.Map<BackScratcherDal>(body))
                 .Returns(dalBody);
 
-            BackscratchersController underTest = new BackscratchersController(backScratcherRepository.Object, mapper.Object);
+            BackscratchersController underTest = new BackscratchersController(backScratcherRepository.Object, mapper.Object, Mock.Of<ILogger<BackscratchersController>>());
             underTest.ControllerContext = GetMockContext();
 
             //Act
@@ -128,7 +129,7 @@ namespace svc_backscratcher_tests
                 Sizes = sizes
             };
 
-            BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>());
+            BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>(), Mock.Of<ILogger<BackscratchersController>>());
 
             //Act
             var response = await underTest.CreateBackScratcherAsync(body);
@@ -168,7 +169,7 @@ namespace svc_backscratcher_tests
                 .Setup(x => x.Map<List<BackScratcherRest>>(backScratcherDals))
                 .Returns(expected);
 
-            BackscratchersController underTest = new BackscratchersController(backScratcherRepository.Object, mapper.Object);
+            BackscratchersController underTest = new BackscratchersController(backScratcherRepository.Object, mapper.Object, Mock.Of<ILogger<BackscratchersController>>());
             underTest.ControllerContext = GetMockContext();
 
             //Act
@@ -186,7 +187,7 @@ namespace svc_backscratcher_tests
         public async Task SearchBackScratchersAsync_InvalidInputs_ReturnsBadRequest(string sizes, string price)
         {
             //Arrange
-            BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>());
+            BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>(), Mock.Of<ILogger<BackscratchersController>>());
 
             //Act
             var response = await underTest.SearchBackScratchersAsync(sizes: sizes, price: price);
@@ -226,7 +227,7 @@ namespace svc_backscratcher_tests
                 .Setup(x => x.Map<BackScratcherRest>(backScratcherDal))
                 .Returns(expected);
 
-            BackscratchersController underTest = new BackscratchersController(backScratcherRepository.Object, mapper.Object);
+            BackscratchersController underTest = new BackscratchersController(backScratcherRepository.Object, mapper.Object, Mock.Of<ILogger<BackscratchersController>>());
             underTest.ControllerContext = GetMockContext();
 
             //Act
@@ -240,7 +241,7 @@ namespace svc_backscratcher_tests
         public async Task GetBackScratcherAsync_InvalidInput_ReturnsBadRequest()
         {
             //Arrange
-            BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>());
+            BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>(), Mock.Of<ILogger<BackscratchersController>>());
             underTest.ControllerContext = GetMockContext();
 
             //Act
@@ -254,7 +255,7 @@ namespace svc_backscratcher_tests
         public async Task GetBackScratcherAsync_ItemDoesNotExist_ReturnsNotFound()
         {
             //Arrange
-            BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>());
+            BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>(), Mock.Of<ILogger<BackscratchersController>>());
             underTest.ControllerContext = GetMockContext();
 
             //Act
@@ -299,7 +300,7 @@ namespace svc_backscratcher_tests
                 .Setup(x => x.Map<BackScratcherDal>(body))
                 .Returns(backScratcherDal);
 
-            BackscratchersController underTest = new BackscratchersController(backScratcherRepository.Object, mapper.Object);
+            BackscratchersController underTest = new BackscratchersController(backScratcherRepository.Object, mapper.Object, Mock.Of<ILogger<BackscratchersController>>());
             underTest.ControllerContext = GetMockContext();
 
             //Act
@@ -327,7 +328,7 @@ namespace svc_backscratcher_tests
 
             var mapper = new Mock<IMapper>();
 
-            BackscratchersController underTest = new BackscratchersController(backScratcherRepository.Object, mapper.Object);
+            BackscratchersController underTest = new BackscratchersController(backScratcherRepository.Object, mapper.Object, Mock.Of<ILogger<BackscratchersController>>());
             underTest.ControllerContext = GetMockContext();
 
             //Act
@@ -351,7 +352,7 @@ namespace svc_backscratcher_tests
             backScratcherRepository
                 .Setup(x => x.DeleteBackScratcherAsync(backScratcherId))
                 .Verifiable();
-            BackscratchersController underTest = new BackscratchersController(backScratcherRepository.Object, Mock.Of<IMapper>());
+            BackscratchersController underTest = new BackscratchersController(backScratcherRepository.Object, Mock.Of<IMapper>(), Mock.Of<ILogger<BackscratchersController>>());
             underTest.ControllerContext = GetMockContext();
 
             //Act
@@ -366,7 +367,7 @@ namespace svc_backscratcher_tests
         public async Task DeleteBackScratcherAsync_InvalidInputs_ReturnsBadRequest()
         {
             //Arrange
-            BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>());
+            BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>(), Mock.Of<ILogger<BackscratchersController>>());
             underTest.ControllerContext = GetMockContext();
 
             //Act
@@ -380,7 +381,7 @@ namespace svc_backscratcher_tests
         public async Task DeleteBackScratcherAsync_ItemDoesNotExist_ReturnsNotFound()
         {
             //Arrange
-            BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>());
+            BackscratchersController underTest = new BackscratchersController(Mock.Of<IBackScratcherRepository>(), Mock.Of<IMapper>(), Mock.Of<ILogger<BackscratchersController>>());
             underTest.ControllerContext = GetMockContext();
 
             //Act
