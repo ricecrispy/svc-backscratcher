@@ -59,7 +59,7 @@ namespace svc_backscratcher.Controllers
             catch (NpgsqlException e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
@@ -110,7 +110,7 @@ namespace svc_backscratcher.Controllers
             catch (NpgsqlException e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
@@ -138,7 +138,7 @@ namespace svc_backscratcher.Controllers
             catch (NpgsqlException e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
@@ -180,7 +180,7 @@ namespace svc_backscratcher.Controllers
             catch (NpgsqlException e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
@@ -208,7 +208,7 @@ namespace svc_backscratcher.Controllers
             catch (NpgsqlException e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
