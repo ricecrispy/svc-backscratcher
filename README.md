@@ -159,5 +159,5 @@ To import and run the tests:
 
 1. import the `postmantests` folder
 2. select `backscratcher-api-tests` and `backscratcher-environment` to import
-3. select `backscratcher-environment` as the environment and confirm `http://localhost:5000` is the current value of `baseUrl`
+3. select `backscratcher-environment` as the environment and confirm `http://ec2-35-168-112-186.compute-1.amazonaws.com:5000` is the current value of `baseUrl`
 4. run the `backscratcher-api-tests` test collection
